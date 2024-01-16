@@ -117,25 +117,49 @@ void display(char p, char c)
   }
 }
 
+// Function to initialize the timer
 void init_timer()
 {
-      SREG |= 1<<7;
-      TCCR0 = 0b00001011; //CTC-3,6, Prescaler-0,1,2
-      TCNT0 = 0;
-      OCR0 = 125;
-      TIMSK |= 0b00000010;//set interrupt OCM
+    // Enable global interrupts
+    SREG |= 1 << 7;
+
+    // Configure Timer 0 for Clear Timer on Compare (CTC) mode with a prescaler of 64
+    TCCR0 = 0b00001011; // CTC-3,6, Prescaler-0,1,2
+
+    // Initialize Timer/Counter Register to 0
+    TCNT0 = 0;
+
+    // Set the value for the compare match (output compare register)
+    OCR0 = 125;
+
+    // Enable Timer/Counter 0 Output Compare Match interrupt
+    TIMSK |= 0b00000010; // Set interrupt OCM
 }
 
-void Init_adc(){
-      ADMUX  = 0b01000000; //Referin.a - AVCC
-      ADCSRA = 0b10000111; //Activare ADC; Prescaler = 128;
-      ADCSRA |= (1<<3);
+// Function to initialize the analog-to-digital converter (ADC)
+void Init_adc()
+{
+    // Set the voltage reference to AVCC (5V)
+    ADMUX = 0b01000000; // Reference voltage - AVCC
+
+    // Enable ADC and set the prescaler to 128
+    ADCSRA = 0b10000111; // Enable ADC; Prescaler = 128
+
+    // Enable ADC Auto Triggering and set the interrupt flag
+    ADCSRA |= (1 << 3);
 }
 
-void readADC_interrupt(char ch){
-      ADMUX &= 0b11100000; //Reseteaz? canalul de conversie
-      ADMUX |= ch; //Seteaz? canalul
-      ADCSRA |= (1<<6); //?ncepe conversia
+// Function to read ADC with interrupts based on the specified channel (ch)
+void readADC_interrupt(char ch)
+{
+    // Reset the channel for conversion
+    ADMUX &= 0b11100000;
+
+    // Set the specified channel for conversion
+    ADMUX |= ch;
+
+    // Start ADC conversion
+    ADCSRA |= (1 << 6);
 }
 
 void ADC_Completed() iv IVT_ADDR_ADC{
