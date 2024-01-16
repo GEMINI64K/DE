@@ -1,0 +1,10 @@
+ if (prescalerValue == 1)
+            prescalerBits = 0b00000001;
+        else if (prescalerValue == 8)
+            prescalerBits = 0b00000010;
+        else if (prescalerValue == 64)
+            prescalerBits = 0b00000011;
+        else if (prescalerValue == 256)
+            prescalerBits = 0b00000100;
+        else if (prescalerValue == 1024)
+            prescalerBits = 0b00000101;
