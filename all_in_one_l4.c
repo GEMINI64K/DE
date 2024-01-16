@@ -170,12 +170,15 @@ void init_timer(){
      TIMSK |= 0b10000000; //set interrupt OCM
 }
 
-void init_INT0_INT1(){
-     GICR |= (1<<7);    
-     GICR |= (1<<6);
-     
-     //activarea intreruperii externe INT0/INT1
-     MCUCR |= 0b00001111; // precizare c� evenimentul va avea loc pe frontul crescator
+// Function to initialize external interrupts INT0 and INT1
+void init_INT0_INT1()
+{
+    // Enable external interrupt INT1 and INT0
+    GICR |= (1 << 7); // INT1
+    GICR |= (1 << 6); // INT0
+
+    // Configure the external interrupt triggering conditions for INT0 and INT1
+    MCUCR |= 0b00001111; // Specify that the event will occur on the rising edge
 }
 
 void nume_functie1() iv IVT_ADDR_INT0 { // Interrupt rutine
